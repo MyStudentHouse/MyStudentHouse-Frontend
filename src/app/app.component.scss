@@ -1,0 +1,161 @@
+/* ---------------------------------------------------
+    VARIABLES
+----------------------------------------------------- */
+
+$navbarTopHeight: 70px;
+$navbarTopPadding: 15px;
+$navbarTopInfoHeight: $navbarTopHeight - (2 * $navbarTopPadding);
+
+$sidebarColor: #333645;
+$sidebarHeaderColor: #a48ad4;
+$sidebarElementColor: #9a9ca4;
+$sidebarElementColorHover: #1e202c;
+
+$navbarColor: white;
+
+$contentColor: #f5f5f5;
+
+/* ---------------------------------------------------
+    GENERAL
+----------------------------------------------------- */
+
+a,
+a:hover,
+a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.navbar {
+    padding: 15px 10px;
+    background: #fff;
+    background-color: $navbarColor !important;
+    border: none;
+    border-radius: 0;
+    height: $navbarTopHeight;
+    //box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.component-container {
+    margin-top: 0.5em;
+}
+
+/* ---------------------------------------------------
+    SIDEBAR STYLE
+----------------------------------------------------- */
+
+#sidebar .sidebar-header {
+    height: $navbarTopHeight;
+    padding: $navbarTopPadding;
+    background: $sidebarHeaderColor;
+
+    .sidebar-profile-image {
+        height: $navbarTopInfoHeight;
+        width: $navbarTopInfoHeight;
+    }
+    
+    .sidebar-profile-info {
+        height: $navbarTopInfoHeight;
+        padding-left: $navbarTopInfoHeight + 10px;
+        line-height: 1.3;
+    }
+
+    .sidebar-profile-info-text {
+        font-size: 14px;
+    }
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: $sidebarColor;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+#sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebar ul.components {
+    color: $sidebarElementColor;
+    list-style-type: none;
+    padding: 0 0 0 0;
+
+    p {
+        color: #fff;
+        padding: 10px;
+    }
+
+    li a {
+        padding: 10px 20px;
+        font-size: 1.1em;
+        display: block;
+    }
+
+    li a:hover {
+        color: white;
+        background: $sidebarElementColorHover;
+    }
+
+    li a.active {
+        color: white;
+        background: $sidebarElementColorHover;
+    }
+
+    li.active>a,
+    a[aria-expanded="true"] {
+        color: #fff;
+        background: #6d7fcc;
+    }
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+/* ---------------------------------------------------
+    CONTENT STYLE
+----------------------------------------------------- */
+
+#content {
+    width: 100%;
+    min-height: 100vh;
+    transition: all 0.3s;
+    background: $contentColor;
+}
+
+/* ---------------------------------------------------
+    MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #sidebarCollapse span {
+        display: none;
+    }
+}
