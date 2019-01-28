@@ -14,6 +14,8 @@ export class BeerComponent implements OnInit {
 
   beerData: any[] = undefined;
 
+  showReturnCrateNotification: boolean = false;
+
   constructor(
     private http: HttpClient,
     private authenticationService: AuthenticationService
@@ -50,7 +52,19 @@ export class BeerComponent implements OnInit {
     console.log(beerData);
   }
 
-  substractBeer(userId, amount = 1) {
+  // Api calls
+
+  getBeerOverviewApiCall() {
+    this.http.get<any>(`${this.apiUrl}/beer`, this.authenticationService.httpOptions).subscribe(
+      (res) => {
+        this.processBeerData(res);
+      },
+      error => {
+        console.log(error);
+      })
+  }
+
+  substractBeerApiCall(userId, amount = 1) {
     this.http.post<any>(`${this.apiUrl}/beer?user_id=${userId}&action=substractBeer&amount=${amount}`, {}, this.authenticationService.httpOptions).subscribe(
       (res) => {
         this.getBeerOverviewApiCall();
@@ -61,7 +75,7 @@ export class BeerComponent implements OnInit {
       })
   }
 
-  addCrate(userId, amount = 1) {
+  addCrateApiCall(userId, amount = 1) {
     this.http.post<any>(`${this.apiUrl}/beer?user_id=${userId}&action=addCrate&amount=${amount}`, {}, this.authenticationService.httpOptions).subscribe(
       (res) => {
         this.getBeerOverviewApiCall();
@@ -72,12 +86,11 @@ export class BeerComponent implements OnInit {
       })
   }
 
-  // Api calls
-
-  getBeerOverviewApiCall() {
-    this.http.get<any>(`${this.apiUrl}/beer`, this.authenticationService.httpOptions).subscribe(
+  returnCrateApiCall(amount = 1) {
+    this.http.post<any>(`${this.apiUrl}/beer?user_id=${this.authenticationService.userId}&action=returnCrate&amount=${amount}`, {}, this.authenticationService.httpOptions).subscribe(
       (res) => {
-        this.processBeerData(res);
+        this.showReturnCrateNotification = true;
+        console.log(res);
       },
       error => {
         console.log(error);

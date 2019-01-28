@@ -16,7 +16,7 @@ export class AuthenticationService {
   private authenticatedSource = new BehaviorSubject<number>(undefined);
   public authenticated = this.authenticatedSource.asObservable();
 
-  public userData: any;
+  public userId: any;
 
   constructor(
     private router: Router,
@@ -37,6 +37,10 @@ export class AuthenticationService {
     }
   }
 
+  setUserId(res) {
+    this.userId = res.success.id;
+  }
+
   registerToken(token) {
     localStorage.setItem('token', token);
     this.setHeaders(token);
@@ -47,6 +51,7 @@ export class AuthenticationService {
   checkPriviliges() {
     this.http.post<any>(`${this.apiUrl}/details`, {}, this.httpOptions).subscribe(
       (res) => {
+        this.setUserId(res);
         this.authenticatedSource.next(1);
       },
       error => {
