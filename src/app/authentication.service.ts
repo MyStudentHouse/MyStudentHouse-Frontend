@@ -73,8 +73,8 @@ export class AuthenticationService {
     });
   }
 
-  register(name, email, password, c_password) {
-    this.http.post<any>(`${this.apiUrl}/register?name=${name}&email=${email}&password=${password}&c_password=${c_password}`, {}).subscribe((res) => {
+  register(name, email, password, confirm_password) {
+    this.http.post<any>(`${this.apiUrl}/register?name=${name}&email=${email}&password=${password}&confirm_password=${confirm_password}`, {}).subscribe((res) => {
       this.registerToken(res.success.token);
     })
   }
