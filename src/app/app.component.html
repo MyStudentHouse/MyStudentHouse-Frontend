@@ -18,7 +18,7 @@
         <a routerLink="beer" routerLinkActive="active"><i class="fas fa-beer fa-fw"></i> Beer</a>
       </li>
       <li>
-        <a href="#"><i class="fas fa-tasks fa-fw"></i> Tasks</a>
+        <a routerLink="tasks" routerLinkActive="active"><i class="fas fa-tasks fa-fw"></i> Tasks</a>
       </li>
     </ul>
   </nav>
@@ -57,6 +57,7 @@
     </nav>
 
     <div class="container component-container">
+      <app-notification></app-notification>
       <router-outlet></router-outlet>
     </div>
 

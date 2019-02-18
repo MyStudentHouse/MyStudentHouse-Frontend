@@ -9,13 +9,17 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { FormsModule } from '@angular/forms';
 import { BeerComponent } from './beer/beer.component';
+import { TasksComponent } from './tasks/tasks.component';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    BeerComponent
+    BeerComponent,
+    TasksComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
