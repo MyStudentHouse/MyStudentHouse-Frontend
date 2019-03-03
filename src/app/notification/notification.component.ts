@@ -26,18 +26,18 @@ export class NotificationComponent implements OnInit {
   ngOnInit() {
     this.notificationQueue = this.notificationService.notificationQueue;
 
-    this.notificationService.addNotification(
-      'alert-dark',
-      'MyStudentHouse Notification',
-      'This is an important MyStudentHouse notification.',
-      'This is an important notification addittion.'
-    );
+    // this.notificationService.addNotification(
+    //   'alert-dark',
+    //   'MyStudentHouse Notification',
+    //   'This is an important MyStudentHouse notification.',
+    //   'This is an important notification addittion.'
+    // );
 
-    this.notificationService.addNotification(
-      'alert-success',
-      'MyStudentHouse Notification 2',
-      'Success'
-    )
+    // this.notificationService.addNotification(
+    //   'alert-success',
+    //   'MyStudentHouse Notification 2',
+    //   'Success'
+    // )
 
   }
 

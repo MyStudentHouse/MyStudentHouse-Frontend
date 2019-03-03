@@ -18,4 +18,8 @@ export class NotificationService {
     })
   }
 
+  removeAllNotifications() {
+    this.notificationQueue = [];
+  }
+
 }

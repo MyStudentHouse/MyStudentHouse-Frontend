@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class AuthenticationService {
   constructor(
     private router: Router,
     private http: HttpClient,
+    private notificationService: NotificationService,
   ) { }
 
   initialize() {
@@ -76,6 +78,7 @@ export class AuthenticationService {
   register(name, email, password, confirm_password) {
     this.http.post<any>(`${this.apiUrl}/register?name=${name}&email=${email}&password=${password}&confirm_password=${confirm_password}`, {}).subscribe((res) => {
       this.registerToken(res.success.token);
+      this.notificationService.addNotification('alert-success', '', 'Registration for MyStudentHouse successful.');
     })
   }
 
