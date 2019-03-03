@@ -2,7 +2,122 @@
   <div class="col-12">
     <h2>Tasks</h2>
   </div>
-  <div class="col-12">
-    <p>Tasks works</p>
+
+  <div class="col-12 tasks-overview">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">My 30 days overview</h5>
+        <p class="card-text">
+          <strong>Week 11 (this week)</strong>
+          <br>
+          Mon 13/03/2019: putting container on street.
+          <br>
+          Wed 15/03/2019: cleaning bathroom.
+          <br>
+          Wed 15/03/2019: cooking dinner.
+        </p>
+        <p class="card-text">
+          <strong>Week 12</strong>
+          <br>
+          Mon 20/03/2019: putting container on street.
+          <br>
+          Wed 22/03/2019: cleaning bathroom.
+          <br>
+          Wed 22/03/2019: cooking dinner.
+        </p>
+        <p class="card-text">
+          <strong>Week 13</strong>
+          <br>
+          No tasks scheduled :)
+        </p>
+        <a class="btn btn-primary show-complete-overview-button" (click)="toggleShowOverviewTasks()">Show complete
+          overview</a>
+      </div>
+    </div>
   </div>
+
+  <div class="col-12 tasks-complete-overview" *ngIf="showOverviewTasks">
+    <div class="accordion" id="accordionExample">
+      <div class="card task-card">
+        <div class="card-header" id="headingOne">
+          <h2 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+              aria-expanded="true" aria-controls="collapseOne">
+              Containers
+            </button>
+          </h2>
+        </div>
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body">
+            <p>Place the containers on the pavement before 9am!</p>
+            <table class="table table-striped table-borderless">
+              <thead>
+                <tr>
+                  <th scope="col">Week</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mon 01/01/2019</td>
+                  <td>Lukas</td>
+                  <td>
+                    <button type="button" class="btn btn-primary action-button"><i class="fas fa-pen"></i></button>
+                    <button type="button" class="btn btn-secondary action-button"><i
+                        class="fas fa-trash-alt"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Mon 07/01/2019</td>
+                  <td>Patrick</td>
+                  <td>
+                    <button type="button" class="btn btn-primary action-button"><i class="fas fa-pen"></i></button>
+                    <button type="button" class="btn btn-secondary action-button"><i
+                        class="fas fa-trash-alt"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Tue 15/01/2019</td>
+                  <td>Henk</td>
+                  <td>
+                    <button type="button" class="btn btn-primary action-button"><i class="fas fa-pen"></i></button>
+                    <button type="button" class="btn btn-secondary action-button"><i
+                        class="fas fa-trash-alt"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card task-card">
+        <div class="card-header" id="headingTwo">
+          <h2 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo"
+              aria-expanded="false" aria-controls="collapseTwo">
+              Cleaning bathroom
+            </button>
+          </h2>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+          <div class="card-body">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
+            officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3
+            wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et.
+            Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan
+            excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt
+            you probably haven't heard of them accusamus labore sustainable VHS.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

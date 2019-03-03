@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TasksComponent implements OnInit {
 
+  showOverviewTasks: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  toggleShowOverviewTasks() {
+    this.showOverviewTasks = !this.showOverviewTasks;
   }
 
 }
