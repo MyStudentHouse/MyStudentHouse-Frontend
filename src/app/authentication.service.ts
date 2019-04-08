@@ -62,24 +62,42 @@ export class AuthenticationService {
   }
 
   login(email, password) {
-    this.http.post<any>(`${this.apiUrl}/login?email=${email}&password=${password}`, {}).subscribe((res) => {
-      this.registerToken(res.success.token);
-    })
+    this.notificationService.removeAllNotifications();
+    if (!email || !password) {
+      this.notificationService.addNotification('alert-danger', 'Login failed', 'Email or password empty.');
+    } else {
+      this.http.post<any>(`${this.apiUrl}/login?email=${email}&password=${password}`, {}).subscribe((res) => {
+        this.registerToken(res.success.token);
+      },
+      error => {
+        console.log(error);
+        this.notificationService.addNotification('alert-danger', 'Login failed', `${error.statusText}`);
+      })
+    }
   }
 
   logout() {
     localStorage.removeItem('token');
-    this.http.post<any>(`${this.apiUrl}/logout`, {}, this.httpOptions).subscribe((res) => {
+    this.http.get<any>(`${this.apiUrl}/logout`, this.httpOptions).subscribe((res) => {
       this.authenticatedSource.next(undefined);
       this.router.navigate(['/login']);
     });
   }
 
   register(name, email, password, confirm_password) {
-    this.http.post<any>(`${this.apiUrl}/register?name=${name}&email=${email}&password=${password}&confirm_password=${confirm_password}`, {}).subscribe((res) => {
-      this.registerToken(res.success.token);
-      this.notificationService.addNotification('alert-success', '', 'Registration for MyStudentHouse successful.');
-    })
+    this.notificationService.removeAllNotifications();
+    if (!name || !email || !password || !confirm_password) {
+      this.notificationService.addNotification('alert-danger', 'Registration failed', 'Name, email or password empty.');
+    } else {
+      this.http.post<any>(`${this.apiUrl}/register?name=${name}&email=${email}&password=${password}&confirm_password=${confirm_password}`, {}).subscribe((res) => {
+        this.registerToken(res.success.token);
+        this.notificationService.addNotification('alert-success', '', 'Registration for MyStudentHouse successful.');
+      },
+      error => {
+        console.log(error);
+        this.notificationService.addNotification('alert-danger', 'Registration failed', `${error.statusText}`);
+      });
+    }
   }
 
 }

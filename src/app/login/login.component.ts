@@ -45,4 +45,8 @@ export class LoginComponent implements OnInit {
     this.showRegisterForm = true;
   }
 
+  goBackToLogin() {
+    this.showRegisterForm = false;
+  }
+
 }

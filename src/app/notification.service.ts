@@ -19,7 +19,7 @@ export class NotificationService {
   }
 
   removeAllNotifications() {
-    this.notificationQueue = [];
+    this.notificationQueue.length = 0;
   }
 
 }

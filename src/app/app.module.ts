@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { BeerComponent } from './beer/beer.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { NotificationComponent } from './notification/notification.component';
+import { RegisterStudenthouseComponent } from './register-studenthouse/register-studenthouse.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { NotificationComponent } from './notification/notification.component';
     LoginComponent,
     BeerComponent,
     TasksComponent,
-    NotificationComponent
+    NotificationComponent,
+    RegisterStudenthouseComponent
   ],
   imports: [
     BrowserModule,
