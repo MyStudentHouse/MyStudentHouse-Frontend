@@ -88,10 +88,27 @@ export class AuthenticationService {
     this.notificationService.removeAllNotifications();
     if (!name || !email || !password || !confirm_password) {
       this.notificationService.addNotification('alert-danger', 'Registration failed', 'Name, email or password empty.');
+    } else if (password !== confirm_password) {
+      this.notificationService.addNotification('alert-danger', 'Registration failed', 'Password fields are not the same.');
     } else {
       this.http.post<any>(`${this.apiUrl}/register?name=${name}&email=${email}&password=${password}&confirm_password=${confirm_password}`, {}).subscribe((res) => {
         this.registerToken(res.success.token);
         this.notificationService.addNotification('alert-success', '', 'Registration for MyStudentHouse successful.');
+      },
+      error => {
+        console.log(error);
+        this.notificationService.addNotification('alert-danger', 'Registration failed', `${error.statusText}`);
+      });
+    }
+  }
+
+  forgotPassword(email) {
+    this.notificationService.removeAllNotifications();
+    if (!email) {
+      this.notificationService.addNotification('alert-danger', 'Password reset failed', 'Email field is empty password empty.');
+    } else {
+      this.http.post<any>(`${this.apiUrl}/password/email?email=${email}`, {}).subscribe((res) => {
+        this.notificationService.addNotification('alert-success', '', 'Passwort reset email sent. Please go back and try again after you have reset you password.');
       },
       error => {
         console.log(error);

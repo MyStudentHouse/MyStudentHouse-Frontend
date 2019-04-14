@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit {
 
   public showRegisterForm: boolean = false;
 
+  public showForgotPasswordForm: boolean = false;
+
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService
@@ -41,12 +43,21 @@ export class LoginComponent implements OnInit {
     this.authenticationService.register(this.name, this.email, this.password, this.c_password);
   }
 
+  forgotPasswordAction() {
+    this.authenticationService.forgotPassword(this.email);
+  }
+
   register() {
     this.showRegisterForm = true;
   }
 
+  forgotPassword() {
+    this.showForgotPasswordForm = true;
+  }
+
   goBackToLogin() {
     this.showRegisterForm = false;
+    this.showForgotPasswordForm = false;
   }
 
 }
