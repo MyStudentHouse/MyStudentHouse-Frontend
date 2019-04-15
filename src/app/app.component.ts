@@ -45,7 +45,7 @@ export class AppComponent {
   }
 
   detailsApiCall() {
-    this.http.post<any>(`${this.apiUrl}/details`, {}, this.authenticationService.httpOptions).subscribe(
+    this.http.get<any>(`${this.apiUrl}/details`, this.authenticationService.httpOptions).subscribe(
       (res) => {
         const data = res['success'];
         data ? this.userData = data : undefined;

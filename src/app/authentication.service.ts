@@ -51,7 +51,7 @@ export class AuthenticationService {
   }
 
   checkPriviliges() {
-    this.http.post<any>(`${this.apiUrl}/details`, {}, this.httpOptions).subscribe(
+    this.http.get<any>(`${this.apiUrl}/details`, this.httpOptions).subscribe(
       (res) => {
         this.setUserId(res);
         this.authenticatedSource.next(1);
