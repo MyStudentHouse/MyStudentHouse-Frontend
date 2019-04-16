@@ -20,6 +20,8 @@ export class AppComponent {
 
   userData: any;
 
+  userAssignedToStudenthouse: boolean = false;
+
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
@@ -32,6 +34,7 @@ export class AppComponent {
       this.authenticated = auth;
       if (auth) {
         this.detailsApiCall();
+        this.getStudentHouseApiCall();
       }
     });
   }
@@ -50,6 +53,18 @@ export class AppComponent {
         const data = res['success'];
         data ? this.userData = data : undefined;
         console.log(data);
+      },
+      error => {
+        console.log(error);
+      })
+  }
+
+  getStudentHouseApiCall() {
+    this.http.get<any>(`${this.apiUrl}/house/user`, this.authenticationService.httpOptions).subscribe(
+      (res) => {
+        const studenthouse: [] = res['success'];
+        console.log('Studenthouse', studenthouse);
+        studenthouse.length > 0 ? this.userAssignedToStudenthouse = true : this.router.navigate(['register-studenthouse']);
       },
       error => {
         console.log(error);
