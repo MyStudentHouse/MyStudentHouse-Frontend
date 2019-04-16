@@ -16,16 +16,31 @@ export class BeerComponent implements OnInit {
 
   showReturnCrateNotification: boolean = false;
 
+  studentHouseId: number = undefined;
+
   constructor(
     private http: HttpClient,
     private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit() {
-    this.getBeerOverviewApiCall();
+    this.getAssignedStudentHouse();
   }
 
-  // Beer processing
+  getAssignedStudentHouse() {
+    this.http.get<any>(`${this.apiUrl}/house/user`, this.authenticationService.httpOptions).subscribe(
+      (res) => {
+        const studentHouseId: number = res['success'][0].id;
+        studentHouseId ? this.studentHouseId = studentHouseId : this.studentHouseId = undefined;
+        console.log('StudentHouseId', this.studentHouseId);
+        if (this.studentHouseId) {
+          this.getBeerOverviewApiCall();
+        }
+      },
+      error => {
+        console.log(error);
+      })
+  }
 
   processBeerData(res) {
     console.log(res);
@@ -55,7 +70,7 @@ export class BeerComponent implements OnInit {
   // Api calls
 
   getBeerOverviewApiCall() {
-    this.http.get<any>(`${this.apiUrl}/beer`, this.authenticationService.httpOptions).subscribe(
+    this.http.get<any>(`${this.apiUrl}/beer/${this.studentHouseId}`, this.authenticationService.httpOptions).subscribe(
       (res) => {
         this.processBeerData(res);
       },

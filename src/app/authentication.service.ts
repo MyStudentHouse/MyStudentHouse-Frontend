@@ -20,6 +20,9 @@ export class AuthenticationService {
   private authenticatedSource = new BehaviorSubject<number>(undefined);
   public authenticated = this.authenticatedSource.asObservable();
 
+  // Id assigned to current logged in user
+  public userId: any;
+
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -70,6 +73,7 @@ export class AuthenticationService {
   checkPriviliges() {
     this.http.get<any>(`${this.apiUrl}/details`, this.httpOptions).subscribe(
       (res) => {
+        this.userId = res['success'].id;
         this.authenticatedSource.next(1);
       },
       error => {
