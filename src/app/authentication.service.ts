@@ -164,10 +164,10 @@ export class AuthenticationService {
    * Holds the forgotPasswordRecovery routine. When an email has been sent to the user,
    * the user can get a new password with the provided token. When a recoveryToken, an email and
    * two equal password have been provided, the API will be called to set the new password.
-   * @param recoveryToken 
-   * @param email 
-   * @param password 
-   * @param confirm_password 
+   * @param {String} recoveryToken 
+   * @param {String} email 
+   * @param {String} password 
+   * @param {String} confirm_password 
    */
   forgotPasswordRecovery(recoveryToken, email, password, confirm_password) {
     this.notificationService.removeAllNotifications();
