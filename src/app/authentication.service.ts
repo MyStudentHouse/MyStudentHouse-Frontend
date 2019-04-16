@@ -30,7 +30,7 @@ export class AuthenticationService {
    * Checks whether there is a userToken set in the localStorage and checks if userToken is valid.
    */
   initialize() {
-    localStorage.getItem('token') ? this.setHeaders(localStorage.getItem('token')) : this.setHeaders(undefined);
+    localStorage.getItem('userToken') ? this.setHeaders(localStorage.getItem('userToken')) : this.setHeaders(undefined);
     this.checkPriviliges();
   }
 
