@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
+  public passwordResetToken: String = undefined;
 
   public email: String = "";
 
@@ -22,14 +24,20 @@ export class LoginComponent implements OnInit {
 
   public showForgotPasswordForm: boolean = false;
 
+  public showForgotPasswordRecoveryForm: boolean = false;
+
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    this.route.snapshot.paramMap.get("token") ? this.passwordResetToken = this.route.snapshot.paramMap.get("token") : this.passwordResetToken = undefined;
     this.authenticationService.authenticated.subscribe( (auth) => {
-      if (auth) {
+      if ( this.passwordResetToken ) {
+        this.showForgotPasswordRecoveryForm = true;
+      } else if (auth) {
         this.router.navigate(['/home']);
       }
     });
@@ -47,6 +55,10 @@ export class LoginComponent implements OnInit {
     this.authenticationService.forgotPassword(this.email);
   }
 
+  forgotPasswordRecoveryAction() {
+    this.authenticationService.forgotPasswordRecovery(this.passwordResetToken, this.email, this.password, this.c_password);
+  }
+
   register() {
     this.showRegisterForm = true;
   }
@@ -58,6 +70,7 @@ export class LoginComponent implements OnInit {
   goBackToLogin() {
     this.showRegisterForm = false;
     this.showForgotPasswordForm = false;
+    this.showForgotPasswordRecoveryForm = false;
   }
 
 }

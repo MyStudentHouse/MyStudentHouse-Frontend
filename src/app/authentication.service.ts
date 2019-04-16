@@ -57,7 +57,9 @@ export class AuthenticationService {
         this.authenticatedSource.next(1);
       },
       error => {
-        this.router.navigate(['login']);
+        if (!this.router.url.startsWith('/login/')){
+          this.router.navigate(['login']);
+        }
       });
   }
 
@@ -113,6 +115,24 @@ export class AuthenticationService {
       error => {
         console.log(error);
         this.notificationService.addNotification('alert-danger', 'Registration failed', `${error.statusText}`);
+      });
+    }
+  }
+
+  forgotPasswordRecovery(token, email, password, confirm_password) {
+    this.notificationService.removeAllNotifications();
+    if (!email || !password || !confirm_password) {
+      this.notificationService.addNotification('alert-danger', 'Password reset failed', 'Email or password empty.');
+    } else if (password !== confirm_password) {
+      this.notificationService.addNotification('alert-danger', 'Password reset failed', 'Password fields are not the same.');
+    } else {
+      this.http.post<any>(`${this.apiUrl}/password/reset?token=${token}&email=${email}&password=${password}&password_confirmation=${confirm_password}`, {}).subscribe((res) => {
+        this.notificationService.addNotification('alert-success', '', `Password reset for ${email} successful.`);
+        this.router.navigate(['/login']);
+      },
+      error => {
+        console.log(error);
+        this.notificationService.addNotification('alert-danger', `Password reset for ${email} failed.`, `${error.statusText}`);
       });
     }
   }
