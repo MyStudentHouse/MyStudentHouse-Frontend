@@ -18,8 +18,6 @@ export class AppComponent {
 
   authenticated: number;
 
-  userData: any;
-
   userAssignedToStudenthouse: boolean = false;
 
   constructor(
@@ -33,7 +31,6 @@ export class AppComponent {
     this.authenticationService.authenticated.subscribe( (auth) => {
       this.authenticated = auth;
       if (auth) {
-        this.detailsApiCall();
         this.getStudentHouseApiCall();
       }
     });
@@ -45,18 +42,6 @@ export class AppComponent {
 
   logOutAction() {
     this.authenticationService.logout();
-  }
-
-  detailsApiCall() {
-    this.http.get<any>(`${this.apiUrl}/details`, this.authenticationService.httpOptions).subscribe(
-      (res) => {
-        const data = res['success'];
-        data ? this.userData = data : undefined;
-        console.log(data);
-      },
-      error => {
-        console.log(error);
-      })
   }
 
   getStudentHouseApiCall() {

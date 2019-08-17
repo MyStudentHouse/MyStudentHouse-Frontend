@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NotificationService } from './notification.service';
+import { TouchSequence } from 'selenium-webdriver';
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +21,21 @@ export class AuthenticationService {
   private authenticatedSource = new BehaviorSubject<number>(undefined);
   public authenticated = this.authenticatedSource.asObservable();
 
-  // Id assigned to current logged in user
-  public userId: any;
+  // Public user data array
+  userData = {
+    email: undefined,
+    iban: undefined,
+    id: undefined,
+    image: undefined,
+    name: undefined,
+    phone: undefined
+  }
 
   constructor(
     private router: Router,
     private http: HttpClient,
     private notificationService: NotificationService,
-  ) { }
+  ) {}
 
   /**
    * Checks whether there is a userToken set in the localStorage and checks if userToken is valid.
@@ -68,12 +76,21 @@ export class AuthenticationService {
    * If a userToken is valid, components gets notified that the user is autenticated.
    * If a userToken is invalid, the user will be redirected to the login page.
    * 
+   * Also this function puts the user details in the user details variable.
+   * 
    * This function is designed to hold access right in the future.
    */
   checkPriviliges() {
     this.http.get<any>(`${this.apiUrl}/details`, this.httpOptions).subscribe(
       (res) => {
-        this.userId = res['success'].id;
+        // Set user details
+        this.userData.email = res['success'].email;
+        this.userData.iban = res['success'].iban; 
+        this.userData.id = res['success'].id;
+        this.userData.image = res['success'].image;
+        this.userData.name = res['success'].name;
+        this.userData.phone = res['success'].phone;
+        
         this.authenticatedSource.next(1);
       },
       error => {

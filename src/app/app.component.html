@@ -1,12 +1,12 @@
 <div class="wrapper">
   <!-- Sidebar  -->
-  <nav id="sidebar" [ngClass]="{active: showSidebar}" *ngIf="authenticated && userData">
+  <nav id="sidebar" [ngClass]="{active: showSidebar}" *ngIf="authenticated && this.authenticationService.userData.name">
     <div class="sidebar-header">
       <img class="float-left rounded-circle sidebar-profile-image" src="https://dummyimage.com/400" />
       <div class="sidebar-profile-info align-middle">
         <span class="sidebar-profile-info-text">MyStundentHouse {{authenticated}}</span>
         <br>
-        <span class="sidebar-profile-info-text">{{userData.name}}</span>
+        <span class="sidebar-profile-info-text">{{ this.authenticationService.userData.name }}</span>
       </div>
     </div>
 

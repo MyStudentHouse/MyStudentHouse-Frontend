@@ -102,7 +102,7 @@ export class BeerComponent implements OnInit {
   }
 
   returnCrateApiCall(amount = 1) {
-    this.http.post<any>(`${this.apiUrl}/beer?user_id=${this.authenticationService.userId}&action=returnCrate&amount=${amount}`, {}, this.authenticationService.httpOptions).subscribe(
+    this.http.post<any>(`${this.apiUrl}/beer?user_id=${this.authenticationService.userData.id}&action=returnCrate&amount=${amount}`, {}, this.authenticationService.httpOptions).subscribe(
       (res) => {
         this.showReturnCrateNotification = true;
         console.log(res);
