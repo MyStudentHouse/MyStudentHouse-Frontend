@@ -16,8 +16,6 @@ export class RegisterStudenthouseComponent implements OnInit {
 
   studentHouses: any[] = undefined;
 
-  userId: number = undefined;
-
   selectedStudentHouse: number = undefined;
 
   createNewStudentHouseName: String = undefined;
@@ -32,19 +30,7 @@ export class RegisterStudenthouseComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getUserId();
-    // this.checkStudentAssignedToStudentHouse();
     this.getStudentHouses();
-  }
-
-  getUserId() {
-    this.http.get<any>(`${this.apiUrl}/details`, this.authenticationService.httpOptions).subscribe(
-      (res) => {
-        this.userId = res['success'].id;
-      },
-      error => {
-        console.log(error);
-      })
   }
 
   checkStudentAssignedToStudentHouse() {
@@ -83,6 +69,7 @@ export class RegisterStudenthouseComponent implements OnInit {
       this.http.post<any>(`${this.apiUrl}/house/create?name=${this.createNewStudentHouseName}&description=${this.createNewStudentHouseDescription}`, {}, this.authenticationService.httpOptions).subscribe(
         (res) => {
           this.notificationService.addNotification('alert-success', '', 'Creation of student house successful.');
+          this.authenticationService.refreshUserData();
           this.router.navigate(['/home']);
         },
         error => {
@@ -92,7 +79,7 @@ export class RegisterStudenthouseComponent implements OnInit {
   }
 
   assignUserToStudentHouse(role = 1) {
-    this.http.post<any>(`${this.apiUrl}/house/assign?house_id=${this.selectedStudentHouse}&user_id=${this.userId}&role=${role}`, {}, this.authenticationService.httpOptions).subscribe(
+    this.http.post<any>(`${this.apiUrl}/house/assign?house_id=${this.selectedStudentHouse}&user_id=${this.authenticationService.userData.id}&role=${role}`, {}, this.authenticationService.httpOptions).subscribe(
       (res) => {
         this.notificationService.addNotification('alert-success', '', 'Joining a student house successful.');
       },

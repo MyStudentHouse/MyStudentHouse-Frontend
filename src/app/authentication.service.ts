@@ -4,7 +4,6 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NotificationService } from './notification.service';
-import { TouchSequence } from 'selenium-webdriver';
 
 @Injectable({
   providedIn: 'root'
@@ -90,6 +89,7 @@ export class AuthenticationService {
         this.userData.image = res['success'].image;
         this.userData.name = res['success'].name;
         this.userData.phone = res['success'].phone;
+        console.log('UserData', this.userData);
         
         this.authenticatedSource.next(1);
       },
@@ -206,6 +206,10 @@ export class AuthenticationService {
         this.notificationService.addNotification('alert-danger', `Password reset for ${email} failed.`, `${error.statusText}`);
       });
     }
+  }
+
+  refreshUserData() {
+    this.checkPriviliges();
   }
 
 }
