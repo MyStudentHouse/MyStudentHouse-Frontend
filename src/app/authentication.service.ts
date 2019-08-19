@@ -16,11 +16,12 @@ export class AuthenticationService {
   // API header with authorization userToken
   public httpOptions: any;
 
-  // Passing authentication state to components
+  // Passing authentication state to components.
+  // This state will only be passed if the user data and the house data has been loaded.
   private authenticatedSource = new BehaviorSubject<number>(undefined);
   public authenticated = this.authenticatedSource.asObservable();
 
-  // User data array
+  // User data property
   userData = {
     email: undefined,
     iban: undefined,
@@ -30,7 +31,7 @@ export class AuthenticationService {
     phone: undefined
   }
 
-  // House data array
+  // House data property
   houseData = {
     created_at: undefined,
     deleted: undefined,
@@ -52,7 +53,7 @@ export class AuthenticationService {
    */
   initialize() {
     localStorage.getItem('userToken') ? this.setHeaders(localStorage.getItem('userToken')) : this.setHeaders(undefined);
-    this.checkPriviliges();
+    this.getUserData();
   }
 
   /**
@@ -77,20 +78,17 @@ export class AuthenticationService {
   registerToken(userToken) {
     localStorage.setItem('userToken', userToken);
     this.setHeaders(userToken);
-    this.authenticatedSource.next(1);
-    this.router.navigate([`/home`]);
+    // this.authenticatedSource.next(1);
+    this.getUserData();
   }
 
   /**
    * Checks whether a userToken is valid by checking if user has access to it's user details.
-   * If a userToken is valid, components gets notified that the user is autenticated.
+   * If a userToken is valid, the user data will be loaded and the loading of the house data will be triggerd.
    * If a userToken is invalid, the user will be redirected to the login page.
    * 
-   * Also this function puts the user details in the user details variable.
-   * 
-   * This function is designed to hold access right in the future.
    */
-  checkPriviliges() {
+  getUserData() {
     this.http.get<any>(`${this.apiUrl}/details`, this.httpOptions).subscribe(
       (res) => {
         // Set user details
@@ -101,17 +99,54 @@ export class AuthenticationService {
         this.userData.name = res['success'].name;
         this.userData.phone = res['success'].phone;
         console.log('UserData', this.userData);
-        
-        this.authenticatedSource.next(1);
 
         // Gets the user's house data
         this.getStudentHouseData();
       },
       error => {
+        // We don't want to throw an error in the notification area,
+        // since the user doesn't know that this is normal when he is not subscribed yet.
+        console.log(error);
         if (!this.router.url.startsWith('/login/')){
           this.router.navigate(['login']);
         }
       });
+  }
+
+  /**
+   * Loads the of the user's student house.
+   * 
+   * This function also notifies the components that the user is authenticated and
+   * that the userData and houseData has been loaded.
+   * 
+   * This function also determines whether the user has to be sent to home or register student house.
+   * 
+   * This function is designed to hold access right in the future.
+   * 
+   */
+  getStudentHouseData() {
+    this.http.get<any>(`${this.apiUrl}/house/user`, this.httpOptions).subscribe(
+      (res) => {
+        if(res['success'].length > 0){
+          // Set house details
+          this.houseData.created_at = res['success'][0].created_at;
+          this.houseData.deleted = res['success'][0].deleted; 
+          this.houseData.house_id = res['success'][0].house_id;
+          this.houseData.id = res['success'][0].id;
+          this.houseData.role = res['success'][0].role;
+          this.houseData.updated_at = res['success'][0].updated_at;
+          this.houseData.user_id = res['success'][0].user_id;
+        }
+
+        this.authenticatedSource.next(1);
+
+        res['success'].length > 0 ? this.router.navigate([`/home`]) : this.router.navigate(['register-studenthouse']);;
+
+        console.log('Housedata', this.houseData);
+      },
+      error => {
+        console.log(error);
+      })
   }
 
   /**
@@ -222,27 +257,8 @@ export class AuthenticationService {
     }
   }
 
-  getStudentHouseData() {
-    this.http.get<any>(`${this.apiUrl}/house/user`, this.httpOptions).subscribe(
-      (res) => {
-        // Set house details
-        this.houseData.created_at = res['success'][0].created_at;
-        this.houseData.deleted = res['success'][0].deleted; 
-        this.houseData.house_id = res['success'][0].house_id;
-        this.houseData.id = res['success'][0].id;
-        this.houseData.role = res['success'][0].role;
-        this.houseData.updated_at = res['success'][0].updated_at;
-        this.houseData.user_id = res['success'][0].user_id;
-
-        console.log('Housedata', this.houseData);
-      },
-      error => {
-        console.log(error);
-      })
-  }
-
   refreshUserData() {
-    this.checkPriviliges();
+    this.getUserData();
   }
 
 }

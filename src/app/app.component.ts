@@ -31,7 +31,9 @@ export class AppComponent {
     this.authenticationService.authenticated.subscribe( (auth) => {
       this.authenticated = auth;
       if (auth) {
-        this.getStudentHouseApiCall();
+        if (this.authenticationService.houseData.id) {
+          this.userAssignedToStudenthouse = true
+        }
       }
     });
   }
@@ -42,18 +44,6 @@ export class AppComponent {
 
   logOutAction() {
     this.authenticationService.logout();
-  }
-
-  getStudentHouseApiCall() {
-    this.http.get<any>(`${this.apiUrl}/house/user`, this.authenticationService.httpOptions).subscribe(
-      (res) => {
-        const studenthouse: [] = res['success'];
-        console.log('Studenthouse', studenthouse);
-        studenthouse.length > 0 ? this.userAssignedToStudenthouse = true : this.router.navigate(['register-studenthouse']);
-      },
-      error => {
-        console.log(error);
-      })
   }
 
   // Navigation actions

@@ -1,6 +1,6 @@
 <div class="wrapper">
   <!-- Sidebar  -->
-  <nav id="sidebar" [ngClass]="{active: showSidebar}" *ngIf="authenticated && this.authenticationService.userData.name">
+  <nav id="sidebar" [ngClass]="{active: showSidebar}" *ngIf="authenticated && this.authenticationService.houseData.id">
     <div class="sidebar-header">
       <img class="float-left rounded-circle sidebar-profile-image" src="https://dummyimage.com/400" />
       <div class="sidebar-profile-info align-middle">
@@ -29,7 +29,7 @@
     <nav class="navbar navbar-expand navbar-light bg-light" *ngIf="authenticated">
       <div class="container-fluid">
 
-        <button type="button" (click)="toggleSidebar()" class="btn ">
+        <button type="button" (click)="toggleSidebar()" class="btn" *ngIf="this.authenticationService.houseData.id">
           <i *ngIf="showSidebar" class="fas fa-arrow-right"></i>
           <i *ngIf="!showSidebar" class="fas fa-arrow-left"></i>
         </button>

@@ -22,9 +22,12 @@ export class BeerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getBeerOverview();
-    // console.log(this.authenticationService.userData);
-    // this.addCrateApiCall(this.authenticationService.userData.id, 1)
+    this.authenticationService.authenticated.subscribe( (auth) => {
+      if (auth) {
+        this.getBeerOverview();
+        // this.addCrateApiCall(this.authenticationService.userData.id, 1)
+      }
+    });
     
   }
 
