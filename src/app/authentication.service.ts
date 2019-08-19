@@ -20,7 +20,7 @@ export class AuthenticationService {
   private authenticatedSource = new BehaviorSubject<number>(undefined);
   public authenticated = this.authenticatedSource.asObservable();
 
-  // Public user data array
+  // User data array
   userData = {
     email: undefined,
     iban: undefined,
@@ -28,6 +28,17 @@ export class AuthenticationService {
     image: undefined,
     name: undefined,
     phone: undefined
+  }
+
+  // House data array
+  houseData = {
+    created_at: undefined,
+    deleted: undefined,
+    house_id: undefined,
+    id: undefined,
+    role: undefined,
+    updated_at: undefined,
+    user_id: undefined
   }
 
   constructor(
@@ -92,6 +103,9 @@ export class AuthenticationService {
         console.log('UserData', this.userData);
         
         this.authenticatedSource.next(1);
+
+        // Gets the user's house data
+        this.getStudentHouseData();
       },
       error => {
         if (!this.router.url.startsWith('/login/')){
@@ -206,6 +220,25 @@ export class AuthenticationService {
         this.notificationService.addNotification('alert-danger', `Password reset for ${email} failed.`, `${error.statusText}`);
       });
     }
+  }
+
+  getStudentHouseData() {
+    this.http.get<any>(`${this.apiUrl}/house/user`, this.httpOptions).subscribe(
+      (res) => {
+        // Set house details
+        this.houseData.created_at = res['success'][0].created_at;
+        this.houseData.deleted = res['success'][0].deleted; 
+        this.houseData.house_id = res['success'][0].house_id;
+        this.houseData.id = res['success'][0].id;
+        this.houseData.role = res['success'][0].role;
+        this.houseData.updated_at = res['success'][0].updated_at;
+        this.houseData.user_id = res['success'][0].user_id;
+
+        console.log('Housedata', this.houseData);
+      },
+      error => {
+        console.log(error);
+      })
   }
 
   refreshUserData() {
