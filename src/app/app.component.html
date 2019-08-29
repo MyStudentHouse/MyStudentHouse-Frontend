@@ -1,8 +1,8 @@
-<div class="wrapper" *ngIf="!authenticated">
+<div class="wrapper" *ngIf="!authenticated && !this.router.url.startsWith('/login')">
   Loading...
 </div>
 
-<div class="wrapper" *ngIf="authenticated">
+<div class="wrapper" *ngIf="authenticated || this.router.url.startsWith('/login')">
   <!-- Sidebar  -->
   <nav id="sidebar" [ngClass]="{active: showSidebar}" *ngIf="this.authenticationService.houseData.id">
     <div class="sidebar-header">
