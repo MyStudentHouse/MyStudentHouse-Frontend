@@ -10,15 +10,14 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class LoginComponent implements OnInit {
 
+  public loginDetails = {
+    email: undefined,
+    name: undefined,
+    password: undefined,
+    c_password: undefined
+  }
+
   public passwordResetToken: String = undefined;
-
-  public email: String = "";
-
-  public password: String = "";
-
-  public name: String = "";
-
-  public c_password: String = "";
 
   public showRegisterForm: boolean = false;
 
@@ -32,6 +31,11 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute
   ) { }
 
+  /**
+   * When the login component gets initialized and the authentication from the authentication service
+   * has been completed, it will be determined wheter the password recovery form has to be shown (when user has reset token).
+   * If the user is authenticated
+   */
   ngOnInit() {
     this.route.snapshot.paramMap.get("token") ? this.passwordResetToken = this.route.snapshot.paramMap.get("token") : this.passwordResetToken = undefined;
     this.authenticationService.authenticated.subscribe( (auth) => {
@@ -43,30 +47,51 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  /**
+   * Calls the corresponding login action from the authentication service with parameters.
+   */
   loginAction() {
-    this.authenticationService.login(this.email, this.password);
+    this.authenticationService.login(this.loginDetails.email, this.loginDetails.password);
   }
 
+  /**
+   * Calls the corresponding register action from the authentication service with parameters.
+   */
   registerAction() {
-    this.authenticationService.register(this.name, this.email, this.password, this.c_password);
+    this.authenticationService.register(this.loginDetails.name, this.loginDetails.email, this.loginDetails.password, this.loginDetails.c_password);
   }
 
+  /**
+   * Calls the corresponding forget password action action from the authentication service with parameters.
+   */
   forgotPasswordAction() {
-    this.authenticationService.forgotPassword(this.email);
+    this.authenticationService.forgotPassword(this.loginDetails.email);
   }
 
+  /**
+   * Calls the corresponding forget password recovery action from the authentication service with parameters.
+   */
   forgotPasswordRecoveryAction() {
-    this.authenticationService.forgotPasswordRecovery(this.passwordResetToken, this.email, this.password, this.c_password);
+    this.authenticationService.forgotPasswordRecovery(this.passwordResetToken, this.loginDetails.email, this.loginDetails.password, this.loginDetails.c_password);
   }
 
+  /**
+   * Function which triggers the register form to show.
+   */
   register() {
     this.showRegisterForm = true;
   }
 
+  /**
+   * Function which triggers the forget password form to show.
+   */
   forgotPassword() {
     this.showForgotPasswordForm = true;
   }
 
+  /**
+   * Function which clears all form except the login form.
+   */
   goBackToLogin() {
     this.showRegisterForm = false;
     this.showForgotPasswordForm = false;

@@ -1,13 +1,16 @@
 <div class="row">
+
   <div class="col-0 col-lg-4"></div>
+
+  <!-- Login form -->
   <div class="col-12 col-lg-4 login-form" *ngIf="!showRegisterForm && !showForgotPasswordForm && !showForgotPasswordRecoveryForm">
     <img class="mb-4" src="/docs/4.2/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input [(ngModel)]="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required
+    <input [(ngModel)]="loginDetails.email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required
       autofocus>
     <label for="inputPassword" class="sr-only">Password</label>
-    <input [(ngModel)]="password" type="password" id="inputPassword" class="form-control" placeholder="Password"
+    <input [(ngModel)]="loginDetails.password" type="password" id="inputPassword" class="form-control" placeholder="Password"
       required>
     <div class="forgot-password">
       <a [routerLink]="login" (click)="forgotPassword()">Forgot password?</a>
@@ -18,6 +21,7 @@
     </div>
   </div>
 
+  <!-- Register form -->
   <div class="col-12 col-lg-4 login-form" *ngIf="showRegisterForm">
     <img class="mb-4" src="/docs/4.2/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">
@@ -26,20 +30,21 @@
       Please register
     </h1>
     <label for="inputName" class="sr-only">Name</label>
-    <input [(ngModel)]="name" type="test" id="inputName" class="form-control" placeholder="Name" required autofocus>
+    <input [(ngModel)]="loginDetails.name" type="test" id="inputName" class="form-control" placeholder="Name" required autofocus>
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input [(ngModel)]="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+    <input [(ngModel)]="loginDetails.email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
     <label for="inputPassword" class="sr-only">Password</label>
-    <input [(ngModel)]="password" type="password" id="inputPassword" class="form-control" placeholder="Password"
+    <input [(ngModel)]="loginDetails.password" type="password" id="inputPassword" class="form-control" placeholder="Password"
       required>
     <label for="inputCPassword" class="sr-only">Confirm password</label>
-    <input [(ngModel)]="c_password" type="password" id="inputCPassword" class="form-control"
+    <input [(ngModel)]="loginDetails.c_password" type="password" id="inputCPassword" class="form-control"
       placeholder="Confirm password" required>
     <div class="login-buttons">
       <button class="btn btn-lg btn-primary btn-block" (click)="registerAction()">Register</button>
     </div>
   </div>
 
+  <!-- Request reset password form -->
   <div class="col-12 col-lg-4 login-form" *ngIf="showForgotPasswordForm">
     <img class="mb-4" src="/docs/4.2/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">
@@ -51,12 +56,13 @@
       Please enter your email address!
     </p>
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input [(ngModel)]="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+    <input [(ngModel)]="loginDetails.email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
     <div class="login-buttons">
       <button class="btn btn-lg btn-primary btn-block" (click)="forgotPasswordAction()">Reset password</button>
     </div>
   </div>
 
+  <!-- Reset your password form -->
   <div class="col-12 col-lg-4 login-form" *ngIf="showForgotPasswordRecoveryForm">
     <img class="mb-4" src="/docs/4.2/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal">
@@ -66,12 +72,12 @@
       Please enter your email address and your new password twice!
     </p>
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input [(ngModel)]="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+    <input [(ngModel)]="loginDetails.email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
     <label for="inputPassword" class="sr-only">Password</label>
-    <input [(ngModel)]="password" type="password" id="inputPassword" class="form-control" placeholder="Password"
+    <input [(ngModel)]="loginDetails.password" type="password" id="inputPassword" class="form-control" placeholder="Password"
       required>
     <label for="inputCPassword" class="sr-only">Confirm password</label>
-    <input [(ngModel)]="c_password" type="password" id="inputCPassword" class="form-control"
+    <input [(ngModel)]="loginDetails.c_password" type="password" id="inputCPassword" class="form-control"
       placeholder="Confirm password" required>
     <div class="login-buttons">
       <button class="btn btn-lg btn-primary btn-block" (click)="forgotPasswordRecoveryAction()">Reset password</button>
