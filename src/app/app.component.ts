@@ -21,8 +21,8 @@ export class AppComponent {
   userAssignedToStudenthouse: boolean = false;
 
   constructor(
-    private router: Router,
-    private authenticationService: AuthenticationService,
+    public router: Router,
+    public authenticationService: AuthenticationService,
     private http: HttpClient
   ) { }
 
