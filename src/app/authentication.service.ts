@@ -257,6 +257,10 @@ export class AuthenticationService {
     }
   }
 
+  /**
+   * Triggers the functions which checks if the user is authenticated, 
+   * which load the user's data and the house data.
+   */
   refreshUserData() {
     this.getUserData();
   }
