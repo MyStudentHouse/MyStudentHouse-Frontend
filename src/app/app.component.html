@@ -2,9 +2,9 @@
   Loading...
 </div>
 
-<div class="wrapper" *ngIf="authenticated || this.router.url.startsWith('/login')">
+<div class="wrapper">
   <!-- Sidebar  -->
-  <nav id="sidebar" [ngClass]="{active: showSidebar}" *ngIf="this.authenticationService.houseData.id">
+  <nav id="sidebar" [ngClass]="{active: showSidebar}" *ngIf="this.authenticationService.houseData.id && authenticated">
     <div class="sidebar-header">
       <img class="float-left rounded-circle sidebar-profile-image" src="https://dummyimage.com/400" />
       <div class="sidebar-profile-info align-middle">
@@ -30,7 +30,7 @@
   <!-- Page Content  -->
   <div id="content" [ngClass]="{active: showSidebar}">
 
-    <nav class="navbar navbar-expand navbar-light bg-light">
+    <nav class="navbar navbar-expand navbar-light bg-light" *ngIf="authenticated">
       <div class="container-fluid">
 
         <button type="button" (click)="toggleSidebar()" class="btn" *ngIf="this.authenticationService.houseData.id">
