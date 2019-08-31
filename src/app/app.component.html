@@ -1,4 +1,4 @@
-<div class="wrapper" *ngIf="!authenticated && !this.router.url.startsWith('/login')">
+<div class="wrapper" *ngIf="!authenticated && this.authenticationService.houseData.id && !this.router.url.startsWith('/login')">
   Loading...
 </div>
 
@@ -8,7 +8,7 @@
     <div class="sidebar-header">
       <img class="float-left rounded-circle sidebar-profile-image" src="assets/user.jpg" />
       <div class="sidebar-profile-info align-middle">
-        <span class="sidebar-profile-info-text">House id: {{ this.authenticationService.houseData.id }}</span>
+        <span class="sidebar-profile-info-text">{{ this.authenticationService.houseData.name }}</span>
         <br>
         <span class="sidebar-profile-info-text">{{ this.authenticationService.userData.name }}</span>
       </div>

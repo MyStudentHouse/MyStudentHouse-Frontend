@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { NotificationService } from './notification.service';
+import { toUnicode } from 'punycode';
 
 @Injectable({
   providedIn: 'root'
@@ -34,12 +35,12 @@ export class AuthenticationService {
   // House data property
   houseData = {
     created_at: undefined,
-    deleted: undefined,
-    house_id: undefined,
+    created_by: undefined,
+    description: undefined,
     id: undefined,
-    role: undefined,
-    updated_at: undefined,
-    user_id: undefined
+    image: undefined,
+    name: undefined,
+    updated_at: undefined
   }
 
   constructor(
@@ -101,7 +102,7 @@ export class AuthenticationService {
         console.log('UserData', this.userData);
 
         // Gets the user's house data
-        this.getStudentHouseData();
+        this.getStudentHouseAssignedToUser();
       },
       error => {
         // We don't want to throw an error in the notification area,
@@ -111,6 +112,24 @@ export class AuthenticationService {
           this.router.navigate(['login']);
         }
       });
+  }
+
+  /**
+   * Checks which studenthouse the user is assigned to and calls 
+   * the getStudentHouseData function with the correct Id.
+   */
+  getStudentHouseAssignedToUser() {
+    this.http.get<any>(`${this.apiUrl}/house/user`, this.httpOptions).subscribe(
+      (res) => {
+        let studenthouseId = undefined;
+        if(res['success'].length > 0){
+          studenthouseId = res['success'][0].house_id;
+        }
+        this.getStudentHouseData(studenthouseId);
+      },
+      error => {
+        console.log(error);
+      })
   }
 
   /**
@@ -124,18 +143,19 @@ export class AuthenticationService {
    * This function is designed to hold access right in the future.
    * 
    */
-  getStudentHouseData() {
-    this.http.get<any>(`${this.apiUrl}/house/user`, this.httpOptions).subscribe(
+  getStudentHouseData(houseId) {
+    this.http.get<any>(`${this.apiUrl}/house/${houseId}`, this.httpOptions).subscribe(
       (res) => {
+        console.log(res);
         if(res['success'].length > 0){
           // Set house details
           this.houseData.created_at = res['success'][0].created_at;
-          this.houseData.deleted = res['success'][0].deleted; 
-          this.houseData.house_id = res['success'][0].house_id;
+          this.houseData.created_by = res['success'][0].created_by;
+          this.houseData.description = res['success'][0].description; 
           this.houseData.id = res['success'][0].id;
-          this.houseData.role = res['success'][0].role;
+          this.houseData.image = res['success'][0].image;
+          this.houseData.name = res['success'][0].name;
           this.houseData.updated_at = res['success'][0].updated_at;
-          this.houseData.user_id = res['success'][0].user_id;
         }
 
         this.authenticatedSource.next(1);
