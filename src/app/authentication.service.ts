@@ -178,7 +178,7 @@ export class AuthenticationService {
    */
   logout() {
     localStorage.removeItem('userToken');
-    this.http.get<any>(`${this.apiUrl}/logout`, this.httpOptions).subscribe((res) => {
+    this.http.post<any>(`${this.apiUrl}/logout`, {}, this.httpOptions).subscribe((res) => {
       this.authenticatedSource.next(undefined);
       this.router.navigate(['/login']);
     });
