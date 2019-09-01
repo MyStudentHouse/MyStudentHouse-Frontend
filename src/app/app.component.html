@@ -1,4 +1,5 @@
-<div class="wrapper" *ngIf="!authenticated && this.authenticationService.houseData.id && !this.router.url.startsWith('/login')">
+<div class="wrapper"
+  *ngIf="!authenticated && this.authenticationService.houseData.id && !this.router.url.startsWith('/login')">
   Loading...
 </div>
 
@@ -40,9 +41,6 @@
 
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav ml-auto">
-            <!-- <li class="nav-item active">
-              <a class="nav-link" href="#">Page</a>
-            </li> -->
             <li class="nav-item">
               <button type="button" class="btn">
                 <i class="fas fa-user"></i>
@@ -61,7 +59,9 @@
     </nav>
 
     <div class="container component-container">
+      <!-- Notification component -->
       <app-notification></app-notification>
+      <!-- Router outlet -->
       <router-outlet></router-outlet>
     </div>
 

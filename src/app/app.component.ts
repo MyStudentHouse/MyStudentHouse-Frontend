@@ -10,14 +10,18 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'MyStudentHouse';
 
+  // Gets apiUrl from the environment file
   readonly apiUrl = environment.apiUrl;
 
+  // Boolean which determines whether the sidebar is visible
   showSidebar: boolean = false;
 
+  // Number which determines whether the user is authenticated,
+  // can be used in the future to determine the rights of a user.
   authenticated: number;
 
+  // Boolean which determines whether the user is assigned to a student house.
   userAssignedToStudenthouse: boolean = false;
 
   constructor(
@@ -26,6 +30,12 @@ export class AppComponent {
     private http: HttpClient
   ) { }
 
+  /**
+   * When this component get's initiliazied and the user is authenticated:
+   * - When the user is authenticated, the authenticated value will be set to a number.
+   * - userAssignedToStudenthouse holds the boolean which determines whether
+   *   the user is assigned to a student house.
+   */
   ngOnInit() {
     this.authenticationService.initialize();
     this.authenticationService.authenticated.subscribe( (auth) => {
@@ -38,21 +48,17 @@ export class AppComponent {
     });
   }
 
+  /**
+   * Function which toggles the visibility og the sidebar.
+   */
   toggleSidebar() {
     this.showSidebar = !this.showSidebar;  
   }
 
+  /**
+   * Function which executes the logout routine in the authentication service.
+   */
   logOutAction() {
     this.authenticationService.logout();
-  }
-
-  // Navigation actions
-
-  goToBeerHome() {
-    this.router.navigate(['home']);
-  }
-
-  goToBeerComponent() {
-    this.router.navigate(['beer']);
   }
 }
