@@ -5,15 +5,17 @@ import { LoginComponent } from './login/login.component';
 import { BeerComponent } from './beer/beer.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { RegisterStudenthouseComponent } from './register-studenthouse/register-studenthouse.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'beer', component: BeerComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'login/:token', component: LoginComponent },
-  { path: 'beer', component: BeerComponent },
+  { path: 'register-studenthouse', component: RegisterStudenthouseComponent },
   { path: 'tasks', component: TasksComponent },
-  { path: 'register-studenthouse', component: RegisterStudenthouseComponent}
+  { path: 'verify/:id/:expires/:signature', component: VerifyEmailComponent }
 ];
 
 @NgModule({

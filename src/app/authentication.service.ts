@@ -108,7 +108,7 @@ export class AuthenticationService {
         // We don't want to throw an error in the notification area,
         // since the user doesn't know that this is normal when he is not subscribed yet.
         console.log(error);
-        if (!this.router.url.startsWith('/login/')){
+        if (!this.router.url.startsWith('/login/') && !this.router.url.startsWith('/verify/')){
           this.router.navigate(['login']);
         }
       });
