@@ -160,7 +160,9 @@ export class AuthenticationService {
 
         this.authenticatedSource.next(1);
 
-        res['success'].length > 0 ? this.router.navigate([`/home`]) : this.router.navigate(['register-studenthouse']);;
+        if (!this.router.url.startsWith('/verify/')) {
+          res['success'].length > 0 ? this.router.navigate([`/home`]) : this.router.navigate(['register-studenthouse']);; 
+        }
 
         console.log('Housedata', this.houseData);
       },
