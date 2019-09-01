@@ -47,7 +47,7 @@ export class AuthenticationService {
     private router: Router,
     private http: HttpClient,
     private notificationService: NotificationService,
-  ) {}
+  ) { }
 
   /**
    * Checks whether there is a userToken set in the localStorage and checks if userToken is valid.
@@ -94,7 +94,7 @@ export class AuthenticationService {
       (res) => {
         // Set user details
         this.userData.email = res['success'].email;
-        this.userData.iban = res['success'].iban; 
+        this.userData.iban = res['success'].iban;
         this.userData.id = res['success'].id;
         this.userData.image = res['success'].image;
         this.userData.name = res['success'].name;
@@ -108,7 +108,7 @@ export class AuthenticationService {
         // We don't want to throw an error in the notification area,
         // since the user doesn't know that this is normal when he is not subscribed yet.
         console.log(error);
-        if (!this.router.url.startsWith('/login/') && !this.router.url.startsWith('/verify/')){
+        if (!this.router.url.startsWith('/login/') && !this.router.url.startsWith('/verify/')) {
           this.router.navigate(['login']);
         }
       });
@@ -122,7 +122,7 @@ export class AuthenticationService {
     this.http.get<any>(`${this.apiUrl}/house/user`, this.httpOptions).subscribe(
       (res) => {
         let studenthouseId = undefined;
-        if(res['success'].length > 0){
+        if (res['success'].length > 0) {
           studenthouseId = res['success'][0].house_id;
         }
         this.getStudentHouseData(studenthouseId);
@@ -147,11 +147,11 @@ export class AuthenticationService {
     this.http.get<any>(`${this.apiUrl}/house/${houseId}`, this.httpOptions).subscribe(
       (res) => {
         console.log(res);
-        if(res['success'].length > 0){
+        if (res['success'].length > 0) {
           // Set house details
           this.houseData.created_at = res['success'][0].created_at;
           this.houseData.created_by = res['success'][0].created_by;
-          this.houseData.description = res['success'][0].description; 
+          this.houseData.description = res['success'][0].description;
           this.houseData.id = res['success'][0].id;
           this.houseData.image = res['success'][0].image;
           this.houseData.name = res['success'][0].name;
@@ -161,7 +161,7 @@ export class AuthenticationService {
         this.authenticatedSource.next(1);
 
         if (!this.router.url.startsWith('/verify/')) {
-          res['success'].length > 0 ? this.router.navigate([`/home`]) : this.router.navigate(['register-studenthouse']);; 
+          res['success'].length > 0 ? this.router.navigate([`/home`]) : this.router.navigate(['register-studenthouse']);;
         }
 
         console.log('Housedata', this.houseData);
@@ -185,10 +185,10 @@ export class AuthenticationService {
       this.http.post<any>(`${this.apiUrl}/login?email=${email}&password=${password}`, {}).subscribe((res) => {
         this.registerToken(res.success.token);
       },
-      error => {
-        console.log(error);
-        this.notificationService.addNotification('alert-danger', 'Login failed', `${error.statusText}`);
-      })
+        error => {
+          console.log(error);
+          this.notificationService.addNotification('alert-danger', 'Login failed', `${error.statusText}`);
+        })
     }
   }
 
@@ -225,10 +225,10 @@ export class AuthenticationService {
         this.registerToken(res.success.token);
         this.notificationService.addNotification('alert-success', '', 'Registration for MyStudentHouse successful.');
       },
-      error => {
-        console.log(error);
-        this.notificationService.addNotification('alert-danger', 'Registration failed', `${error.statusText}`);
-      });
+        error => {
+          console.log(error);
+          this.notificationService.addNotification('alert-danger', 'Registration failed', `${error.statusText}`);
+        });
     }
   }
 
@@ -245,10 +245,10 @@ export class AuthenticationService {
       this.http.post<any>(`${this.apiUrl}/password/email?email=${email}`, {}).subscribe((res) => {
         this.notificationService.addNotification('alert-success', '', 'Passwort reset email sent. Please go back and try again after you have reset you password.');
       },
-      error => {
-        console.log(error);
-        this.notificationService.addNotification('alert-danger', 'Registration failed', `${error.statusText}`);
-      });
+        error => {
+          console.log(error);
+          this.notificationService.addNotification('alert-danger', 'Registration failed', `${error.statusText}`);
+        });
     }
   }
 
@@ -272,10 +272,10 @@ export class AuthenticationService {
         this.notificationService.addNotification('alert-success', '', `Password reset for ${email} successful.`);
         this.router.navigate(['/login']);
       },
-      error => {
-        console.log(error);
-        this.notificationService.addNotification('alert-danger', `Password reset for ${email} failed.`, `${error.statusText}`);
-      });
+        error => {
+          console.log(error);
+          this.notificationService.addNotification('alert-danger', `Password reset for ${email} failed.`, `${error.statusText}`);
+        });
     }
   }
 
