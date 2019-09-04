@@ -61,4 +61,11 @@ export class AppComponent {
   logOutAction() {
     this.authenticationService.logout();
   }
+
+  /**
+   * Function which directs the user to his profile.
+   */
+  goToMyProfile() {
+    this.router.navigate([`/profile`])
+  }
 }

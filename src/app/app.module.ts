@@ -13,6 +13,7 @@ import { TasksComponent } from './tasks/tasks.component';
 import { NotificationComponent } from './notification/notification.component';
 import { RegisterStudenthouseComponent } from './register-studenthouse/register-studenthouse.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
     TasksComponent,
     NotificationComponent,
     RegisterStudenthouseComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    MyProfileComponent
   ],
   imports: [
     BrowserModule,

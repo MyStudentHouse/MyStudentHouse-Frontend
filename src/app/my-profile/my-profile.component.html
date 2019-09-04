@@ -1,0 +1,37 @@
+<h1 class="h3 mb-3 font-weight-normal">
+  <button type="button" class="btn button-back" (click)="goBackToHome()"><i
+      class="far fa-arrow-alt-circle-left"></i></button>
+  My profile
+</h1>
+
+<form (submit)="updateProfileDetails()" class="profile-form">
+  <div class="form-group row">
+    <label for="staticName" class="col-sm-2 col-form-label">Name</label>
+    <div class="col-sm-10">
+      <input [(ngModel)]="profile.name" [ngModelOptions]="{standalone: true}" type="text" readonly
+        class="form-control-plaintext" id="staticName">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+    <div class="col-sm-10">
+      <input [(ngModel)]="profile.email" [ngModelOptions]="{standalone: true}" type="text" class="form-control"
+        id="inputEmail">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputPhone" class="col-sm-2 col-form-label">Phone</label>
+    <div class="col-sm-10">
+      <input [(ngModel)]="profile.phone" [ngModelOptions]="{standalone: true}" type="text" class="form-control"
+        id="inputPhone">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputIban" class="col-sm-2 col-form-label">IBAN</label>
+    <div class="col-sm-10">
+      <input [(ngModel)]="profile.iban" [ngModelOptions]="{standalone: true}" type="text" class="form-control"
+        id="inputIban">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-lg btn-primary btn-block">Update profile</button>
+</form>
