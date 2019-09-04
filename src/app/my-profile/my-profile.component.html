@@ -15,7 +15,7 @@
   <div class="form-group row">
     <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
     <div class="col-sm-10">
-      <input [(ngModel)]="profile.email" [ngModelOptions]="{standalone: true}" type="text" class="form-control"
+      <input [(ngModel)]="profile.email" [ngModelOptions]="{standalone: true}" type="email" class="form-control"
         id="inputEmail">
     </div>
   </div>
@@ -33,5 +33,5 @@
         id="inputIban">
     </div>
   </div>
-  <button type="submit" class="btn btn-lg btn-primary btn-block">Update profile</button>
+  <button type="submit" class="btn btn-lg btn-primary btn-block update-profile-button">Update profile</button>
 </form>
