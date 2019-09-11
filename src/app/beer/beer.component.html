@@ -14,17 +14,17 @@
           {{element.totalCrates}} create(s)
         </p>
         <div>
-          <button type="button" class="btn btn-primary float-left" (click)="substractBeerApiCall(element.userId)"><i
+          <button type="button" class="btn btn-primary float-left" (click)="substractBeer(element.userId)"><i
               class="fas fa-beer"></i></button>
           <button type="button" class="btn btn-outline-secondary float-right"
-            (click)="addCrateApiCall(element.userId)"><i class="fas fa-box-open"></i></button>
+            (click)="addCrate(element.userId)"><i class="fas fa-box-open"></i></button>
         </div>
       </div>
     </div>
   </div>
 
   <div class="col-12 bottom-row">
-    <button type="button" class="btn btn-primary" (click)="returnCrateApiCall()">Return Crate</button>
+    <button type="button" class="btn btn-primary" (click)="returnCrate()">Return Crate</button>
   </div>
 
 </div>

@@ -12,14 +12,19 @@ import { NotificationService } from '../notification.service';
 })
 export class RegisterStudenthouseComponent implements OnInit {
 
+  // Gets apiUrl from the environment file
   readonly apiUrl = environment.apiUrl;
 
+  // Array of student housues
   studentHouses: any[] = undefined;
 
+  // Variabel holds the ID of the selected student house.
   selectedStudentHouse: number = undefined;
 
+  // Variable holds the name of a new student house.
   createNewStudentHouseName: String = undefined;
 
+  // Variable holds the description of a new student house.
   createNewStudentHouseDescription: String = undefined;
 
   constructor(
@@ -33,32 +38,22 @@ export class RegisterStudenthouseComponent implements OnInit {
     this.getStudentHouses();
   }
 
-  checkStudentAssignedToStudentHouse() {
-    this.http.get<any>(`${this.apiUrl}/house/user`, this.authenticationService.httpOptions).subscribe(
-      (res) => {
-        const studenthouse: [] = res['success'];
-        console.log('Studenthouse', studenthouse);
-        if (res['success'].length > 0) {
-          this.router.navigate(['home']);
-          this.notificationService.addNotification('alert-danger', 'Creation of student house failed', `You are already assigned to a student house, please remove yourself first from it.`);
-        }
-      },
-      error => {
-        console.log(error);
-      })
-  }
-
+  /**
+   * This function gets the list of student houses and puts them into an array of studenthouses.
+   */
   getStudentHouses() {
     this.http.get<any>(`${this.apiUrl}/house`, this.authenticationService.httpOptions).subscribe(
       (res) => {
         this.studentHouses = res['success'];
-        console.log('Studenthouses', this.studentHouses);
       },
       error => {
-        console.log(error);
+        this.notificationService.addNotification('alert-danger', 'Getting the list of student houses failed', `${error.statusText}`);
       })
   }
 
+  /**
+   * This function reactes a new student house bases on the student house name and description.
+   */
   createStudentHouse() {
     if (!this.createNewStudentHouseName) {
       this.notificationService.addNotification('alert-danger', 'Creation of student house failed', `Please enter a name for your student house.`);
@@ -78,6 +73,11 @@ export class RegisterStudenthouseComponent implements OnInit {
     }
   }
 
+  /**
+   * This function assigns an user to a student house with a particular roule (default is 1).
+   * 
+   * @param {Number} role 
+   */
   assignUserToStudentHouse(role = 1) {
     this.http.post<any>(`${this.apiUrl}/house/assign?house_id=${this.selectedStudentHouse}&user_id=${this.authenticationService.userData.id}&role=${role}`, {}, this.authenticationService.httpOptions).subscribe(
       (res) => {

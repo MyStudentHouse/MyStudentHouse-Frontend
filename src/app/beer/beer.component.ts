@@ -10,11 +10,11 @@ import { AuthenticationService } from './../authentication.service';
 })
 export class BeerComponent implements OnInit {
 
+  // Gets apiUrl from the environment file
   readonly apiUrl = environment.apiUrl;
 
+  // Object which holds all processed beer data.
   beerData: any[] = undefined;
-
-  showReturnCrateNotification: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -31,10 +31,14 @@ export class BeerComponent implements OnInit {
     
   }
 
-  processBeerData(res) {
-    console.log(res);
+  /**
+   * Processes raw beerdata into an object which the beer component can use.
+   * 
+   * @param {object} rawBeerData 
+   */
+  processBeerData(rawBeerData) {
     let beerData = [];
-    res.success.forEach(element => {
+    rawBeerData.success.forEach(element => {
       let userBeerObject: any = undefined
       beerData.find(x => x.userId === element.user_id) ? userBeerObject = beerData.find(x => x.userId === element.user_id) : '';
 
@@ -53,11 +57,11 @@ export class BeerComponent implements OnInit {
       beerData.find(x => x.userId === element.user_id) ? beerData.find(x => x.userId === element.user_id)[0] = userBeerObject : beerData.push(userBeerObject);
     });
     this.beerData = beerData;
-    console.log(beerData);
   }
 
-  // Api calls
-
+  /**
+   * This function makes an API call to retrieve the beeroverview of the user's student house.
+   */
   getBeerOverview() {
     this.http.get<any>(`${this.apiUrl}/beer/${this.authenticationService.houseData.id}`, this.authenticationService.httpOptions).subscribe(
       (res) => {
@@ -68,7 +72,13 @@ export class BeerComponent implements OnInit {
       })
   }
 
-  substractBeerApiCall(userId, amount = 1) {
+  /**
+   * Substracts a number of beers (by default 1) from a particular user.
+   * 
+   * @param {Number} userId 
+   * @param {Number} amount 
+   */
+  substractBeer(userId, amount = 1) {
     this.http.post<any>(`${this.apiUrl}/beer?user_id=${userId}&house_id=${this.authenticationService.houseData.id}&action=substractBeer&amount=${amount}`, {}, this.authenticationService.httpOptions).subscribe(
       (res) => {
         this.getBeerOverview();
@@ -79,7 +89,13 @@ export class BeerComponent implements OnInit {
       })
   }
 
-  addCrateApiCall(userId, amount = 1) {
+  /**
+   * Adds a number of crates (by default 1) to a particular user.
+   * 
+   * @param {Number} userId 
+   * @param {Number} amount 
+   */
+  addCrate(userId, amount = 1) {
     this.http.post<any>(`${this.apiUrl}/beer?user_id=${userId}&house_id=${this.authenticationService.houseData.id}&action=addCrate&amount=${amount}`, {}, this.authenticationService.httpOptions).subscribe(
       (res) => {
         this.getBeerOverview();
@@ -90,10 +106,15 @@ export class BeerComponent implements OnInit {
       })
   }
 
-  returnCrateApiCall(amount = 1) {
+  /**
+   * Return a particular amount (by default 1) of crates.
+   * 
+   * @param {Number} amount 
+   */
+  returnCrate(amount = 1) {
     this.http.post<any>(`${this.apiUrl}/beer?user_id=${this.authenticationService.userData.id}&house_id=${this.authenticationService.houseData.id}&action=returnCrate&amount=${amount}`, {}, this.authenticationService.httpOptions).subscribe(
       (res) => {
-        this.showReturnCrateNotification = true;
+        // TODO: Show notification
         console.log(res);
       },
       error => {

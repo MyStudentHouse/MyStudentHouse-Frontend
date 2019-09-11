@@ -17,12 +17,12 @@ export class LoginComponent implements OnInit {
     c_password: undefined
   }
 
+  // Variable which holds the passwordResetToken.
   public passwordResetToken: String = undefined;
 
+  // These variables determine which form will be shown in the login component.
   public showRegisterForm: boolean = false;
-
   public showForgotPasswordForm: boolean = false;
-
   public showForgotPasswordRecoveryForm: boolean = false;
 
   constructor(

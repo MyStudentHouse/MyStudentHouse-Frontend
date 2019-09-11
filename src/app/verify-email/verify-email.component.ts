@@ -12,24 +12,25 @@ import { NotificationService } from '../notification.service';
 })
 export class VerifyEmailComponent implements OnInit {
 
+  // Gets apiUrl from the environment file
   readonly apiUrl = environment.apiUrl;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private authenticationService: AuthenticationService,
     private notificationService: NotificationService,
   ) { }
 
   ngOnInit() {
+    // Extract the id, expires and signature parameters from the url route.
     const id = this.route.snapshot.paramMap.get("id");
     const expires = this.route.snapshot.paramMap.get("expires");
     const signature = this.route.snapshot.paramMap.get("signature");
-    console.log(`${id}, ${expires}, ${signature}`);
     this.verifyEmail(id, expires, signature);
   }
 
+  // Verify email by using the parameters extracted from the URL.
   verifyEmail(id, expires, signature) {
     this.http.get<any>(`${this.apiUrl}/verify/${id}?expires=${expires}&signature=${signature}`).subscribe(
       (res) => {

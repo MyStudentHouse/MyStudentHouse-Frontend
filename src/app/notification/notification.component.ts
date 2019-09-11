@@ -8,15 +8,7 @@ import { NotificationService } from '../notification.service';
 })
 export class NotificationComponent implements OnInit {
 
-  // alert-primary
-  // alert-secondary
-  // alert-success
-  // alert-danger
-  // alert-warning
-  // alert-info
-  // alert-light
-  // alert-dark
-
+  // Notification queue where the notications will be stored in.
   notificationQueue: any[];
 
   constructor(
@@ -24,21 +16,8 @@ export class NotificationComponent implements OnInit {
   ) {  }
 
   ngOnInit() {
+    // The notificationQueue will be linked to the noitificationQueue of the notification service.
     this.notificationQueue = this.notificationService.notificationQueue;
-
-    // this.notificationService.addNotification(
-    //   'alert-dark',
-    //   'MyStudentHouse Notification',
-    //   'This is an important MyStudentHouse notification.',
-    //   'This is an important notification addittion.'
-    // );
-
-    // this.notificationService.addNotification(
-    //   'alert-success',
-    //   'MyStudentHouse Notification 2',
-    //   'Success'
-    // )
-
   }
 
 }
