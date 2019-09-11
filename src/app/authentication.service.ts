@@ -223,7 +223,7 @@ export class AuthenticationService {
     } else {
       this.http.post<any>(`${this.apiUrl}/register?name=${name}&email=${email}&password=${password}&confirm_password=${confirm_password}`, {}).subscribe((res) => {
         this.registerToken(res.success.token);
-        this.notificationService.addNotification('alert-success', '', 'Registration for MyStudentHouse successful.');
+        this.notificationService.addNotification('alert-success', '', 'Registration for MyStudentHouse successful. Please make sure to confirm your emailaddress.');
       },
         error => {
           console.log(error);
