@@ -14,6 +14,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { RegisterStudenthouseComponent } from './register-studenthouse/register-studenthouse.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
+import { MyStudentHouseComponent } from './my-student-house/my-student-house.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
     NotificationComponent,
     RegisterStudenthouseComponent,
     VerifyEmailComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    MyStudentHouseComponent
   ],
   imports: [
     BrowserModule,
