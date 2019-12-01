@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { AuthenticationService } from './../authentication.service';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-beer',
@@ -18,6 +19,7 @@ export class BeerComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
+    private notificationService: NotificationService,
     private authenticationService: AuthenticationService
   ) { }
 
@@ -69,6 +71,7 @@ export class BeerComponent implements OnInit {
       },
       error => {
         console.log(error);
+        this.notificationService.addNotification('alert-danger', 'Creating beer overview failed.', `${error.statusText}`);
       })
   }
 
@@ -86,6 +89,7 @@ export class BeerComponent implements OnInit {
       },
       error => {
         console.log(error);
+        this.notificationService.addNotification('alert-danger', 'Substracting beer(s) failed', `${error.statusText}`);
       })
   }
 
@@ -103,6 +107,7 @@ export class BeerComponent implements OnInit {
       },
       error => {
         console.log(error);
+        this.notificationService.addNotification('alert-danger', 'Adding crate(s) failed.', `${error.statusText}`);
       })
   }
 
@@ -114,11 +119,12 @@ export class BeerComponent implements OnInit {
   returnCrate(amount = 1) {
     this.http.post<any>(`${this.apiUrl}/beer?user_id=${this.authenticationService.userData.id}&house_id=${this.authenticationService.houseData.id}&action=returnCrate&amount=${amount}`, {}, this.authenticationService.httpOptions).subscribe(
       (res) => {
-        // TODO: Show notification
-        console.log(res);
+        this.getBeerOverview();
+        this.notificationService.addNotification('alert-success', '', `You successfully returned a crate.`);
       },
       error => {
         console.log(error);
+        this.notificationService.addNotification('alert-danger', 'Returning crate failed', `${error.statusText}`);
       })
   }
 
