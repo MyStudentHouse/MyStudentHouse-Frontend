@@ -66,6 +66,13 @@ export class AppComponent {
    * Function which directs the user to his profile.
    */
   goToMyProfile() {
-    this.router.navigate([`/profile`])
+    this.router.navigate([`/profile`]);
+  }
+
+  /**
+   * Function which directs the user to the MyStudentHouse settings page.
+   */
+  goToMyStudentHouse() {
+    this.router.navigate([`/my-student-house`]);
   }
 }
