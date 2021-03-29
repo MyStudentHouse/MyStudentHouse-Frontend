@@ -19,6 +19,13 @@ export class TasksComponent implements OnInit {
 
   userTasks: any[] = [];
 
+  newTask = {
+    taskName: "",
+    description: "",
+    interval: 1,
+    startDateTime: undefined
+  }
+
   constructor(
     private http: HttpClient,
     private notificationService: NotificationService,
@@ -73,6 +80,52 @@ export class TasksComponent implements OnInit {
   }
 
   /**
+   * Adds a new task.
+   */
+  addTask() {
+    this.http.post<any>(
+      `${this.apiUrl}/task?name=${this.newTask.taskName}&description=${this.newTask.description}&house_id=${this.authenticationService.houseData.id}&interval=${this.newTask.interval}&start_datetime=${this.newTask.startDateTime}&reminder=1&mark_complete=0`,
+      {},
+      this.authenticationService.httpOptions).subscribe(
+        (res) => {
+          this.newTask.taskName = '';
+          this.newTask.description = '';
+          this.ngOnInit();
+        },
+        error => {
+          this.notificationService.addNotification('alert-danger', `Adding ${this.newTask.taskName} failed, please try again.`, `${error.statusText}`);
+          console.log(error);
+        }
+      )
+  }
+
+  /**
+   * Assigns the current user to the task.
+   * 
+   * @param {int} taskId - The task id.
+   */
+  assignMyself(taskId) {
+    this.assignUserToTask(taskId, this.authenticationService.userData.email)
+  }
+
+  /**
+   * Assign user to task.
+   * 
+   * @param {int} taskId - The task id.
+   * @param {string} userEmail - The email address of the user.
+   */
+  assignUserToTask(taskId, userEmail) {
+    this.http.post<any>(`${this.apiUrl}/task/user/assign?task_id=${taskId}&user_email=${userEmail}`, {}, this.authenticationService.httpOptions).subscribe(
+      (res) => {
+        this.ngOnInit();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  /**
    * Get's the assigned people to a task in an async way.
    * 
    * @param {int} id - The task id.
@@ -80,30 +133,6 @@ export class TasksComponent implements OnInit {
    */
   async getTaskAssignees(id, weeks = 10) {
     return this.http.get<any>(`${this.apiUrl}/task/${id}/${weeks}`, this.authenticationService.httpOptions).toPromise();
-  }
-
-  // Playground //
-
-  addTask() {
-    this.http.post<any>(`${this.apiUrl}/task?name=Lukas&description=Kat buitenzetten2&house_id=2&interval=7&start_datetime=2020/05/01 07:00:00&reminder=1&mark_complete=0`, {}, this.authenticationService.httpOptions).subscribe(
-      (res) => {
-        console.log(res);
-      },
-      error => {
-        console.log(error);
-      }
-    )
-  }
-
-  assignUserToTask() {
-    this.http.post<any>(`${this.apiUrl}/task/user/assign?task_id=7&user_email=mystudenthouse@lukasant.nl`, {}, this.authenticationService.httpOptions).subscribe(
-      (res) => {
-        console.log(res);
-      },
-      error => {
-        console.log(error);
-      }
-    )
   }
 
 }
