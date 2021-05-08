@@ -26,7 +26,7 @@ export class MyStudentHouseComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private notificationService: NotificationService,
-    private authenticationService: AuthenticationService,
+    public authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit() {
