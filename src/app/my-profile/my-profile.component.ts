@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpRequest, HttpEvent } from '@angular/common/http';
 import { NotificationService } from '../notification.service';
 import { AuthenticationService } from '../authentication.service';
 import { environment } from 'src/environments/environment';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-my-profile',
@@ -20,7 +21,8 @@ export class MyProfileComponent implements OnInit {
     email: undefined,
     iban: undefined,
     name: undefined,
-    phone: undefined
+    phone: undefined,
+    avatar: undefined,
   }
 
   constructor(
@@ -44,6 +46,7 @@ export class MyProfileComponent implements OnInit {
   getProfileDetails() {
     this.http.get<any>(`${this.apiUrl}/details`, this.authenticationService.httpOptions).subscribe(
       (res) => {
+        console.log(res);
         this.profile.email = res['success'].email;
         res['success'].iban !== 'null' ? this.profile.iban = res['success'].iban : this.profile.iban = '';
         this.profile.name = res['success'].name;
@@ -60,6 +63,8 @@ export class MyProfileComponent implements OnInit {
    */
   updateProfileDetails() {
     if (this.profile.email) {
+      const body = { email: `${this.profile.email}`, phone: `${this.profile.phone}`, iban: `${this.profile.iban}` };
+
       this.http.post<any>(`${this.apiUrl}/details?email=${this.profile.email}&phone=${this.profile.phone}&iban=${this.profile.iban}`, {}, this.authenticationService.httpOptions).subscribe(
         (res) => {
           this.authenticationService.refreshUserData();

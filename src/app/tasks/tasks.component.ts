@@ -19,6 +19,8 @@ export class TasksComponent implements OnInit {
 
   userTasks: any[] = [];
 
+  taskToDelete: 0;
+
   newTask = {
     taskName: "",
     description: "",
@@ -133,6 +135,26 @@ export class TasksComponent implements OnInit {
    */
   async getTaskAssignees(id, weeks = 10) {
     return this.http.get<any>(`${this.apiUrl}/task/${id}/${weeks}`, this.authenticationService.httpOptions).toPromise();
+  }
+
+  /**
+   * Deletes a task.
+   * 
+   * @param {int{}} taskId - The task id.
+   */
+  async deleteTask() {
+    this.http.post<any>(`${this.apiUrl}/task/destroy?task_id=${this.taskToDelete}`, {}, this.authenticationService.httpOptions).subscribe(
+      (res) => {
+        this.ngOnInit();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  setTaskToDelete(taskId){
+    this.taskToDelete = taskId;
   }
 
 }
